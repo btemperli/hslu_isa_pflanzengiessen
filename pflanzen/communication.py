@@ -5,6 +5,8 @@ import simplejson
 class CommunicationManager:
 
     def __init__(self):
+        # Init CommunicationManager
+        # Set plant-id and all URLs
         self.url_measure = 'https://temperli.io/web/api/v1/measure'
         self.url_watering = 'https://temperli.io/web/api/v1/watering'
         self.token = 'aJHxrTWKJT14XZoHpHRUQLZVKrRYDDpe'
@@ -13,6 +15,8 @@ class CommunicationManager:
         print('COMMUNICATIONMANAGER is ready.')
 
     def upload_measures(self, measurement):
+        # Upload measurements to the browser
+
         print('upload_measures()')
 
         params = {
@@ -38,6 +42,8 @@ class CommunicationManager:
             print(r)
 
     def upload_watering(self):
+        # Upload a current watering to the server
+
         params = {
             'token': self.token,
             'plant_id': self.plant_id,
@@ -58,4 +64,5 @@ class CommunicationManager:
             print(r)
 
     def run_test(self):
+        # Run tests for the CommunicationManager
         print('todo: test the communication to', self.url_measure)

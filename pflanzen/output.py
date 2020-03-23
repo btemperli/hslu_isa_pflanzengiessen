@@ -8,7 +8,7 @@ class OutputManager:
     led_bar = 0
 
     def __init__(self):
-        self.led_bar = 5
+        self.led_bar = 6
 
         grovepi.pinMode(self.led_bar, "OUTPUT")
         grovepi.ledBar_init(self.led_bar, 0)
@@ -26,6 +26,7 @@ class OutputManager:
 
         level = math.ceil(value * 10 / 700)
 
+        # Optimize Level between 1 and 10:
         if level < 1:
             level = 1
         if level > 10:

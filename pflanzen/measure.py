@@ -19,11 +19,11 @@ class Measurement:
 
     def __init__(self):
         # Digital
-        self.temperature_pin = 4
+        self.temperature_pin = 5
 
         # Analog
-        self.moisture_pin = 0
-        self.water_pin = 1
+        self.moisture_pin = 1
+        self.water_pin = 0
 
         grovepi.pinMode(self.temperature_pin, "INPUT")
         grovepi.pinMode(self.moisture_pin, "INPUT")
@@ -32,6 +32,14 @@ class Measurement:
         print('MEASUREMENT is ready.')
 
     def measure(self):
+        # Measure Values
+        # Try to measure all our sensors:
+        # - temperature
+        # - humidity
+        # - water
+        # - moisture
+        # return values or None as dict
+
         print('measure()')
 
         temperature = None
@@ -47,9 +55,6 @@ class Measurement:
             print('keyboardinterrupt in Measurement: measure data')
         except IOError:
             print('IOError in Measurement: measure data')
-        except:
-            print('except in Measurement: measure data')
-            print(sys.exc_info()[0])
 
         if math.isnan(temperature):
             print('temperature is not a number!')
@@ -84,11 +89,14 @@ class Measurement:
         return self.water
 
     def print_measurements(self, measurements):
+        # Print all values of dict measurements
+
         for sensor in self.sensors:
             print(sensor + ':', measurements[sensor])
         print()
 
     def start_measurements(self):
+        # start measurements (initially)
         measurements = self.measure()
         self.print_measurements(measurements)
 
@@ -96,6 +104,8 @@ class Measurement:
             setattr(self, sensor, measurements[sensor])
 
     def do_measurements(self):
+        # do measurements repeatedly
+        # print new values out to the console
         measurements = self.measure()
 
         for sensor in self.sensors:
@@ -104,6 +114,7 @@ class Measurement:
                 print('new', sensor + ':', measurements[sensor])
 
     def run_test(self):
+        # Run tests for the Measurement-class
         print('run test for measurement:')
 
         try:
@@ -113,6 +124,3 @@ class Measurement:
                 time.sleep(1)
         except IOError:
             print('MeasureError: Sensors are not working.')
-        except:
-            print('run_test measure.py: except error')
-            print(sys.exc_info()[0])

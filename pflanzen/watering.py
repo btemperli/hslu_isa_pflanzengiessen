@@ -1,6 +1,5 @@
 import grovepi
 import time
-import sys
 
 
 class WaterManager:
@@ -8,15 +7,22 @@ class WaterManager:
     relay_pin = 0
 
     def __init__(self):
+        # Init Water Manager
+        # - set relay_pin
+        # - set watering levels
         self.relay_pin = 3
         self.moisture_level_for_watering = 300
         self.water_level_for_watering = 200
-        self.thread_give_water = None
 
         grovepi.pinMode(self.relay_pin, "OUTPUT")
         print('WATERMANAGER is ready.')
 
     def give_water(self, communication):
+        # Give Water
+        # - Upload the message to the server
+        # - start pump
+        # - wait x seconds (pump is running)
+        # - stop pump
         communication.upload_watering()
 
         print('start pump')
@@ -27,9 +33,6 @@ class WaterManager:
             print('keyboardInterrupt: WaterManager, relay pin OFF')
         except IOError:
             print('IOError: WaterManager, relay pin ON')
-        except:
-            print('except: WaterManager, relay pin ON')
-            print(sys.exc_info()[0])
 
         time.sleep(5)
 
@@ -41,11 +44,13 @@ class WaterManager:
             print('keyboardInterrupt: WaterManager, relay pin OFF')
         except IOError:
             print('IOError: WaterManager, relay pin OFF')
-        except:
-            print('except: WaterManager, relay pin OFF')
-            print(sys.exc_info()[0])
 
     def check_for_watering(self, measurement, communication):
+        # Check for Watering, look if water is needed by the plant:
+        # - get moisture value
+        # - get water value
+        # - give water if values are in range
+
         print('check_for_watering()')
         moisture = measurement.get_moisture()
         water_in_pot = measurement.get_water()
@@ -54,6 +59,8 @@ class WaterManager:
             self.give_water(communication)
 
     def run_test(self, measurement):
+        # Run Tests in the WaterManager
+
         print('run test for the watermanager')
         print('level moisture:', self.moisture_level_for_watering)
         print('current moisture:', measurement.get_moisture())
