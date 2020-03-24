@@ -6,7 +6,7 @@ import pflanzenprojekt.pflanzen.measure as measure
 import pflanzenprojekt.pflanzen.communication as communication
 import pflanzenprojekt.pflanzen.watering as watering
 
-duration = 20
+duration = 300
 
 outputManager = output.OutputManager()
 measurement = measure.Measurement()
