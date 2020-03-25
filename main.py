@@ -1,12 +1,12 @@
 import threading
 import time
 
-import pflanzenprojekt.pflanzen.output as output
-import pflanzenprojekt.pflanzen.measure as measure
-import pflanzenprojekt.pflanzen.communication as communication
-import pflanzenprojekt.pflanzen.watering as watering
+import pflanzen.output as output
+import pflanzen.measure as measure
+import pflanzen.communication as communication
+import pflanzen.watering as watering
 
-duration = 300
+duration = 900
 
 outputManager = output.OutputManager()
 measurement = measure.Measurement()
