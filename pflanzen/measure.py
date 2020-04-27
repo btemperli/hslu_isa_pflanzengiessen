@@ -4,7 +4,7 @@ import math
 import sys
 
 
-class Measurement:
+class MeasurementManager:
 
     temperature_pin = 0
     moisture_pin = 0

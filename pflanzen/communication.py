@@ -17,8 +17,6 @@ class CommunicationManager:
     def upload_measures(self, measurement):
         # Upload measurements to the browser
 
-        print('upload_measures()')
-
         params = {
             'token': self.token,
             'plant_id': self.plant_id,
@@ -31,19 +29,26 @@ class CommunicationManager:
         print('post', self.url_measure)
 
         # sending post request and saving the response as response object
-        r = requests.post(url=self.url_measure, params=params)
-
-        # extracting data in json format
         try:
+            r = requests.post(url=self.url_measure, params=params)
+            print(r)
+
+            # extracting data in json format
             data = r.json()
             print(data)
+        except requests.exceptions.Timeout:
+            print('Request / Post: TimeOutError')
+        except requests.exceptions.TooManyRedirects:
+            print('Request / Post: Too Many Redirects')
+        except requests.exceptions.ConnectionError:
+            print('Connection Error')
+        except requests.exceptions.RequestException:
+            print('Request / Post: Request Exception')
         except simplejson.errors.JSONDecodeError:
             print('JSONDecodeError')
-            print(r)
 
     def upload_watering(self):
         # Upload a current watering to the server
-
         params = {
             'token': self.token,
             'plant_id': self.plant_id,

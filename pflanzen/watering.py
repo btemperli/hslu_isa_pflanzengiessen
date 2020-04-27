@@ -5,17 +5,27 @@ import time
 class WaterManager:
 
     relay_pin = 0
+    pump_duration = 0
+    water_level_for_watering = 0
+    moisture_level_for_watering = 0
 
     def __init__(self):
         # Init Water Manager
         # - set relay_pin
         # - set watering levels
         self.relay_pin = 3
-        self.moisture_level_for_watering = 300
-        self.water_level_for_watering = 200
 
         grovepi.pinMode(self.relay_pin, "OUTPUT")
         print('WATERMANAGER is ready.')
+
+    def set_pump_duration(self, pump_duration):
+        self.pump_duration = pump_duration
+
+    def set_water_level_for_watering(self, water_level):
+        self.water_level_for_watering = water_level
+
+    def set_moisture_level_for_watering(self, moisture_level):
+        self.moisture_level_for_watering = moisture_level
 
     def give_water(self, communication):
         # Give Water
@@ -34,7 +44,7 @@ class WaterManager:
         except IOError:
             print('IOError: WaterManager, relay pin ON')
 
-        time.sleep(5)
+        time.sleep(self.pump_duration)
 
         print('stop pump')
         try:
@@ -57,6 +67,9 @@ class WaterManager:
 
         if moisture < self.moisture_level_for_watering and water_in_pot > self.water_level_for_watering:
             self.give_water(communication)
+            return True
+
+        return False
 
     def run_test(self, measurement):
         # Run Tests in the WaterManager
@@ -68,9 +81,9 @@ class WaterManager:
         print('level water:', self.water_level_for_watering)
         print('current water:', measurement.get_water())
         print()
-        print('run pump for 5 seconds')
+        print('run pump for 0.1 seconds')
         grovepi.digitalWrite(self.relay_pin, 1)
-        time.sleep(5)
+        time.sleep(0.1)
         grovepi.digitalWrite(self.relay_pin, 0)
-        print('finish pump after 5 seconds')
+        print('finish pump after 0.1 seconds')
 
