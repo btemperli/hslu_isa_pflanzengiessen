@@ -64,9 +64,16 @@ class CommunicationManager:
         try:
             data = r.json()
             print(data)
+        except requests.exceptions.Timeout:
+            print('Request / Post: TimeOutError')
+        except requests.exceptions.TooManyRedirects:
+            print('Request / Post: Too Many Redirects')
+        except requests.exceptions.ConnectionError:
+            print('Connection Error')
+        except requests.exceptions.RequestException:
+            print('Request / Post: Request Exception')
         except simplejson.errors.JSONDecodeError:
             print('JSONDecodeError')
-            print(r)
 
     def run_test(self):
         # Run tests for the CommunicationManager
