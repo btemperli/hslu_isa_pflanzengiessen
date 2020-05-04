@@ -33,14 +33,16 @@ def run():
         measurementManager.do_measurements()
         outputManager.show_moisture_on_led_bar(measurementManager)
         communicationManager.upload_measures(measurementManager)
-        if config.water_stop < 1:
+        print('water_stop', config.water_stop)
+        if config.water_stop <= 0:
             config.gave_water = waterManager.check_for_watering(measurementManager, communicationManager)
         else:
             config.water_stop = config.water_stop - 1
 
+        print('config.gave_water', config.gave_water)
         if config.gave_water:
             config.water_stop = config.water_stop_duration
-
+            config.gave_water = False
         # Repeat all 'duration' seconds:
         time.sleep(duration)
 
@@ -49,7 +51,7 @@ def run():
 # Define variables
 # ----------------
 # fix values
-short_duration = 30
+short_duration = 15
 long_duration = 900
 pump_duration = 4
 moisture_level_dry = 240
@@ -57,6 +59,8 @@ water_level_dry = 200
 
 # changing values
 duration = long_duration
+
+print('run with duration:', duration)
 
 # classes
 outputManager = output.OutputManager()
